@@ -5284,3 +5284,17 @@ a.credit {
 /* Common Style */
 .section {
   padding-bottom: 0; }
+
+
+.badge-test{
+  background-color: black;
+  color: white;
+  padding: 4px 8px;
+  text-align: center;
+  border-radius: 5px;
+  font-size: 12px;
+  margin: 5px;
+}
+
+
+  
