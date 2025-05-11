@@ -5320,6 +5320,17 @@ a.credit {
   height: 10px;
   width: 10px;
 }
+.circle-main {
+  position: absolute;
+  top: 13%;
+  left: 68%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 82, 82, 1);
+  border-radius: 50%;
+  animation: pulse-red 1.9s infinite;
+  height: 10px;
+  width: 10px;
+}
 
 @keyframes pulse-red {
   0% {
