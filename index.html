@@ -18,6 +18,55 @@
         transform: translate(0) scale(1) !important;
       }
     </style>
+ <style>
+        body {
+            background-color: #111;
+            color: white;
+            font-family: 'Courier New', monospace;
+            padding: 2rem;
+        }
+        
+        .h2.title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .category {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-top: 0;
+        }
+        
+        .glitch-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .original-text {
+            display: inline-block;
+            transition: opacity 0.3s ease;
+        }
+        
+        .random-chars {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch-active .original-text {
+            opacity: 0;
+        }
+        
+        .glitch-active .random-chars {
+            opacity: 1;
+        }
+    </style>
   </noscript>
 </head>
 
@@ -79,15 +128,22 @@
                     <img src="images/profile.jpg" alt="Image" />
                   </a>
                 </div>
-                <div class="h2 title">Marc Urbano</div>
-                <p class="category text-white">Software Developer | Penetration Tester | Application Security Engineer
+                <div class="h2 title glitch-container">
+                  <span class="original-text" hidden>Marc Urbano</span>
+                  <span class="random-chars"></span>
+                </div>
+                <p class="category text-white glitch-container">
+                  <span class="original-text" hidden>Software Developer | Penetration Tester | Application Security
+                    Engineer</span>
+                  <span class="random-chars"></span>
                 </p>
+
                 <!--<p class="text-white"> Experienced in diverse technology stacks, languages, platforms, and technologies.
                   Specialized in Penetration testing for Government, Telco, and Private sector clients. Trusted Cyber
                   Security Consultant for Several Companies, including Properties, Terminal Operations, and Data
                   Registry in the Philippines.</p>-->
-                <a class="btn btn-primary" href="marc-urbano-cv.pdf" data-aos="zoom-in" data-aos-anchor="data-aos-anchor"
-                  target=”_blank”>Download CV</a>
+                <a class="btn btn-primary" href="marc-urbano-cv.pdf" data-aos="zoom-in"
+                  data-aos-anchor="data-aos-anchor" target=”_blank”>Download CV</a>
               </div>
             </div>
             <div class="section">
@@ -123,16 +179,18 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-12 col-md-12">
-              <div class="card-body">
+              <div class="card-body ">
                 <div class="h4 mt-0 title">Let's Talk about business</div>
+                
                 <div class="row mt-3">
                   <div class="col-sm-12">
                     <strong class="h5">What Can I do for you?</strong>
                   </div>
                   <div class="col-sm-12">
-                    <p>With roughly 7 years experience in the tech industry,
+                    <p class="original-text">With roughly 7 years experience in the tech industry,
                       I can help you achieve your business tech goals by implementing the secured and correct solutions.
                     </p>
+                    <span class="random-chars"></span>
                     <a class="btn btn-primary smooth-scroll mr-2" href="#contact" data-aos="zoom-in"
                       data-aos-anchor="data-aos-anchor">Contact Me</a>
                   </div>
@@ -748,6 +806,86 @@
       </a>
       <div class="h4 title text-center">Let's Connect!</div>
   </footer>
+      <script>
+        document.querySelectorAll('.glitch-container').forEach(container => {
+            const originalText = container.querySelector('.original-text').textContent;
+            const randomCharsElement = container.querySelector('.random-chars');
+            
+            // Initialize with same text to ensure same dimensions
+            randomCharsElement.textContent = originalText;
+            
+            let glitchInterval;
+            let glitchActiveInterval;
+            
+            function startGlitch() {
+                // Add active class for CSS transitions
+                container.classList.add('glitch-active');
+                
+                // Start rapid glitch effect
+                glitchInterval = setInterval(() => {
+                    let randomText = '';
+                    for (let i = 0; i < originalText.length; i++) {
+                        // Skip spaces to maintain readability
+                        if (originalText[i] === ' ') {
+                            randomText += ' ';
+                            continue;
+                        }
+                        
+                        // Different character pools for variety
+                        const pools = [
+                            "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+                            "!@#$%^&*()_+-=[]{}|;:,.<>?",
+                            "01",
+                            "█▓▒░▄▀▌",
+                            "abcdefghijklmnopqrstuvwxyz"
+                        ];
+                        
+                        const pool = pools[Math.floor(Math.random() * pools.length)];
+                        randomText += pool.charAt(Math.floor(Math.random() * pool.length));
+                    }
+                    randomCharsElement.textContent = randomText;
+                }, 40); // Glitch speed (lower = faster)
+                
+                // Stop glitch after 500ms (duration of glitch effect)
+                setTimeout(() => {
+                    stopGlitch();
+                }, 300);
+            }
+            
+            function stopGlitch() {
+                // Remove active class for CSS transitions
+                container.classList.remove('glitch-active');
+                
+                // Stop rapid glitch effect
+                clearInterval(glitchInterval);
+                
+                // Restore original text
+                randomCharsElement.textContent = originalText;
+            }
+            
+            // Start the 3-second cycle
+            function startGlitchCycle() {
+                // Initial glitch after 3 seconds
+                setTimeout(() => {
+                    startGlitch();
+                    
+                    // Set up recurring glitch every 3 seconds
+                    glitchActiveInterval = setInterval(() => {
+                        startGlitch();
+                    }, 1000);
+                }, 1000);
+            }
+            
+            // Start the glitch cycle
+            startGlitchCycle();
+            
+            // Clean up when leaving page (good practice)
+            window.addEventListener('beforeunload', () => {
+                clearInterval(glitchInterval);
+                clearInterval(glitchActiveInterval);
+            });
+        });
+    </script>
   <script src="js/core/jquery.3.2.1.min.js?ver=1.1.0"></script>
   <script src="js/core/popper.min.js?ver=1.1.0"></script>
   <script src="js/core/bootstrap.min.js?ver=1.1.0"></script>
